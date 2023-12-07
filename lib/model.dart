@@ -13,7 +13,7 @@ class Todo {
     return {
       'id': id,
       'title': title,
-      'isCompleted': isCompleted,
+      'isCompleted': isCompleted ? 1 : 0,
     };
   }
 
@@ -21,7 +21,7 @@ class Todo {
     return Todo(
       id: map['id'],
       title: map['title'],
-      isCompleted: map['isCompleted'],
+      isCompleted: map['isCompleted'] == 1,
     );
   }
 }

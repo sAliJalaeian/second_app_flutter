@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:second/database_helper.dart';
+import 'package:second/model.dart';
 import 'package:second/widgets/todolist.dart';
 
 void main() async {
@@ -43,13 +44,14 @@ class _MyAppState extends State<MyApp> {
           refreshCallBack: refreshTodoList
         ),
         floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
           onPressed: () {
             showDialog(
               context: context,
               builder: (context) {
                 final TextEditingController controller = TextEditingController();
                 return AlertDialog(
-                  title: Text("Add TODO"),
+                  title: const Text("Add TODO"),
                   content: TextField(
                     controller: controller,
                     autofocus: true,
@@ -57,6 +59,15 @@ class _MyAppState extends State<MyApp> {
                       labelText: 'Todo',
                     ),
                   ),
+                  actions: [
+                    TextButton(onPressed: () async {
+                      final newTodo = Todo(title: controller.text, isCompleted: false);
+                      await widget.databaseHelper.insertTodo(newTodo);
+                      controller.clear();
+                      Navigator.of(context).pop();
+                      refreshTodoList();
+                    }, child: const Text("Add"))
+                  ],
                 );
               }
             );
